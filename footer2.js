@@ -1,1 +1,1 @@
-'qualquwrr coisa'
+'qualquer coisa'
