@@ -2,7 +2,7 @@ import express from 'express'
 import 'dotenv/config'
 
 const server = express()
-const port = 3001
+const port = process.env.PORT 
 
 server.use(express.json())
 server.get('/', (req,res) => {
