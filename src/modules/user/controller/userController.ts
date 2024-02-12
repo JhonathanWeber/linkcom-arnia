@@ -38,6 +38,12 @@ export class UserController implements IUserController{
             res.status(500).json({message: error.message})
 
             
+
+
+
+
+
+            
         }
     }
 
@@ -53,6 +59,21 @@ export class UserController implements IUserController{
             
         }
     }
+
+    async restoreUser(req: Request, res: Response): Promise<void>{
+      try {
+        const {id} = req.params
+        const user = await this.userService.restoreUser(id)
+
+        res.status(200).json(user)
+
+        
+      } catch (error : any) {
+        res.status(500).json({message: error.message})
+        
+      }
+    }
+    
 
 
 }

@@ -35,5 +35,15 @@ export class UserRepo implements IUserRepo{
 
     }
 
+    async restoreUser(id:string): Promise<User|null>{
+
+        const user = await this.userModel.findByIdAndUpdate(id,{deletedAt:null},{new:true})
+
+        if(!user){
+            return null
+        }
+        return user
+
     }
+}
 

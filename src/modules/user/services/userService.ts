@@ -44,6 +44,18 @@ export class UserService implements IUserService {
         return deleteUser
     }
 
+    async restoreUser(id:string): Promise<User>{
+        const userInactive = await this.userRepo.getUserById(id)
+
+        if(!userInactive) throw new Error('User not found')
+
+        const user = await this.userRepo.restoreUser(id)
+
+        if(!user) throw new Error('User not found')
+
+        return user
+    }
+
     
 
 

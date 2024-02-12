@@ -9,4 +9,7 @@ export interface IUserService {
 
     getUserById(id:string): Promise<User>
 
+    restoreUser(id:string): Promise<User>
+
+
 }
