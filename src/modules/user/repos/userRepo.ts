@@ -45,5 +45,14 @@ export class UserRepo implements IUserRepo{
         return user
 
     }
-}
 
+    async getUserByEmail(email:string): Promise<User|null>{
+        const user = await this.userModel.findOne({email:email})
+
+        if(!user){
+            return null
+        }
+            return user
+    }
+
+}

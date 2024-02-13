@@ -11,5 +11,7 @@ export interface IUserService {
 
     restoreUser(id:string): Promise<User>
 
+    getUserByEmail(email:string): Promise<User>
+
 
 }

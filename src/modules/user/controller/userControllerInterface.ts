@@ -8,6 +8,7 @@ export interface IUserController {
     getUserById(req: Request, res: Response): Promise<void>
     softDelete(req: Request, res: Response): Promise<void>
     restoreUser(req: Request, res: Response): Promise<void>
+    getUserByEmail(req: Request, res: Response): Promise<void>
 
     
 }

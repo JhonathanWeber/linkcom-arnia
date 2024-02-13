@@ -36,13 +36,6 @@ export class UserController implements IUserController{
             
         } catch (error : any) {
             res.status(500).json({message: error.message})
-
-            
-
-
-
-
-
             
         }
     }
@@ -72,6 +65,19 @@ export class UserController implements IUserController{
         res.status(500).json({message: error.message})
         
       }
+    }
+
+    async getUserByEmail(req: Request, res: Response): Promise<void>{
+        try {
+            const {email} = req.params
+            const user = await this.userService.getUserByEmail(email)
+
+            res.status(200).json(user)
+            
+        } catch (error : any) {
+            res.status(500).json({message: error.message})
+            
+        }
     }
     
 

@@ -56,7 +56,13 @@ export class UserService implements IUserService {
         return user
     }
 
-    
+    async getUserByEmail(email:string): Promise<User>{
+        const userEmail = await this.userRepo.getUserByEmail(email)
 
+        if(!userEmail) throw new Error('Email not found')
+
+        return userEmail
+
+    }
 
 }
