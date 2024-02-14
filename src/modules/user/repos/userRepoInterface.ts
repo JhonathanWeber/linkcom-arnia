@@ -1,3 +1,4 @@
+import { UpdateUserDto } from "../dtos/updateUserDto";
 import { User } from "../models/userModel";
 
 export interface IUserRepo{
@@ -12,5 +13,11 @@ export interface IUserRepo{
     restoreUser(id:string): Promise<User|null>
 
     getUserByEmail(email:string): Promise<User|null>
+
+    updateUser(id:string, newUserData: UpdateUserDto): Promise<User|null>
+
+    addGems(id:string, addGems: number): Promise<User|null>
+
+    subtractGems(id:string, subtractGems: number): Promise<User|null>
 }
 

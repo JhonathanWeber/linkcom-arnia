@@ -18,4 +18,9 @@ export class AuthRepo implements IAuthRepo {
     return newUser;
 
 }
+async loginAdmin(loginData:LoginDTO): Promise<User | null> {
+  const {email} = loginData
+  const user = await this.userModule.findOne({ email }).select("+password");
+  return user
+}
 }

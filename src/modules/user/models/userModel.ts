@@ -3,17 +3,17 @@ import { InferSchemaType, Model, Schema, model } from "mongoose";
 
 const userSchema = new Schema({
     name: {
-        type:'string',
+        type:String,
         required: true,
 
     },
     email: {
-        type:'string',
+        type:String,
         required : true,
         unique: true,
     },
     password: {
-        type:'string',
+        type:String,
         required : true,
         select : false,
     },
@@ -21,7 +21,20 @@ const userSchema = new Schema({
         type: Date,
         default: null,
 
+    },
+    gems: {
+        type: Number,
+        default: 0,
+        required: true
+    },
+    typeUser:{
+        type:String,
+        default: 'user',
+        required: true
     }
+
+
+
 
 },{
     timestamps: true

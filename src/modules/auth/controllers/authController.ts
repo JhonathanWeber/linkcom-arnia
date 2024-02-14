@@ -36,5 +36,17 @@ export class AuthController implements IAuthController {
             }
     }
 
+    async loginAdmin(req:Request, res: Response):Promise<void>{
+        try {
+            const {email, password} = req.body
+            await authLoginValidator.validate({email:email, password:password}, {abortEarly:true})
+
+            const userData = await this.authService.loginAdmin({email:email, password:password})
+            res.status(200).json({user:userData?.user,token:userData?.token})
+        } catch (error: any) {
+            res.status(500).json({ error: error.message });
+            
+        }}
+
     
 }

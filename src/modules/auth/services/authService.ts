@@ -13,7 +13,7 @@ export class AuthService implements IAuthService {
 
     async login(loginData: LoginDTO): Promise<{user:User,token:string}| null> {
         const user = await this.authRepo.login(loginData)
-        console.log(user,{'msg':'aqui'})
+        
         
         if(!user || !user.password) throw new Error('Invailed email')
 
@@ -37,5 +37,25 @@ export class AuthService implements IAuthService {
         if(!newUser) throw new Error('Invalid User')
 
         return newUser
+    }
+    async loginAdmin(loginData: LoginDTO): Promise<{user:User,token:string}| null> {
+        const user = await this.authRepo.loginAdmin(loginData)
+
+        if(!user || !user.password) throw new Error('Invailed email')
+       
+        
+        if(user.typeUser !== 'admin') throw new Error('user not admin')
+        
+
+        const userPassword = user.password
+        const isPasswordValid = await bcrypt.compare(loginData.password, userPassword)
+
+        if(!isPasswordValid) throw new Error('Invalid Password')
+
+        const payload = {...user}
+        const secret = process.env.JWT_SECRET as string
+        const option = {expiresIn:'1d'}
+        const token =  jwt.sign(payload,secret,option)
+        return {user,token}
     }
 }
