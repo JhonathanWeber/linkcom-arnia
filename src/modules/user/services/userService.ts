@@ -5,7 +5,7 @@ import { IUserService } from "./userServiceInterface";
 
 //regra de negocio
 export class UserService implements IUserService {
-  constructor(private userRepo: IUserRepo) {}
+  constructor(private userRepo: IUserRepo) { }
 
   async getAll(): Promise<User[]> {
     const users = await this.userRepo.getAll();
@@ -80,9 +80,6 @@ export class UserService implements IUserService {
 
     if (!user) throw new Error("User not found");
 
-    if (user.typeUser !== "admin")
-      throw new Error("user does not have permission");
-
     if (addGems < 0) throw new Error("add value bigger then zero");
 
     if (addGems > 100) throw new Error("maximum gems value is 100 ");
@@ -105,7 +102,7 @@ export class UserService implements IUserService {
 
     if (subtractGems < 0) throw new Error("add value bigger then zero");
 
-    if (user.gems <= 0) throw new Error("No negative gems allowed");
+    if (user.gems <= 0) throw new Error("User without Gems");
 
     const gems: number = user.gems;
 
@@ -113,7 +110,7 @@ export class UserService implements IUserService {
 
     const subtractGemsUser = await this.userRepo.subtractGems(id, newGems);
 
-    if (!subtractGemsUser) throw new Error("Error adding gems");
+    if (!subtractGemsUser) throw new Error("Error when adding gems");
 
     return subtractGemsUser;
   }

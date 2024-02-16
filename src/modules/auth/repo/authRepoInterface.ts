@@ -3,9 +3,8 @@ import { LoginDTO } from "../dtos/loginDTOS";
 import { RegisterUserDTO } from "../dtos/registerUserDTO";
 
 
-export interface IAuthRepo{
-    login(loginData:LoginDTO):Promise<User | null>
-    registerUser(userData:RegisterUserDTO):Promise<User | null>
-    loginAdmin(loginData:LoginDTO):Promise<User | null>
+export interface IAuthRepo {
+    login(loginData: LoginDTO): Promise<User | null>
+    registerUser(userData: RegisterUserDTO): Promise<User | null>
 
 }

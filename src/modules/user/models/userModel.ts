@@ -1,21 +1,21 @@
-import { InferSchemaType, Model, Schema, model } from "mongoose";
+import { InferSchemaType, Model, Schema, model, ObjectId } from "mongoose";
 
 
 const userSchema = new Schema({
     name: {
-        type:String,
+        type: String,
         required: true,
 
     },
     email: {
-        type:String,
-        required : true,
+        type: String,
+        required: true,
         unique: true,
     },
     password: {
-        type:String,
-        required : true,
-        select : false,
+        type: String,
+        required: true,
+        select: false,
     },
     deletedAt: {
         type: Date,
@@ -27,8 +27,8 @@ const userSchema = new Schema({
         default: 0,
         required: true
     },
-    typeUser:{
-        type:String,
+    typeUser: {
+        type: String,
         default: 'user',
         required: true
     }
@@ -36,10 +36,10 @@ const userSchema = new Schema({
 
 
 
-},{
+}, {
     timestamps: true
 })
 // extrai todos os dados 
 export type User = InferSchemaType<typeof userSchema>
 
-export const UserModel : Model<User> = model('User',userSchema);
+export const UserModel: Model<User> = model('User', userSchema);
