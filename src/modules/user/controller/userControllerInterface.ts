@@ -10,5 +10,4 @@ export interface IUserController {
   getUserByEmail(req: Request, res: Response): Promise<void>;
   updateUser(req: Request, res: Response): Promise<void>;
   addGems(req: Request, res: Response): Promise<void>;
-  subtractGems(req: Request, res: Response): Promise<void>;
 }

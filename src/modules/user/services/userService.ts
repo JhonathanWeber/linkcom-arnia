@@ -57,7 +57,6 @@ export class UserService implements IUserService {
 
   async getUserByEmail(email: string): Promise<User> {
     const userEmail = await this.userRepo.getUserByEmail(email);
-
     if (!userEmail) throw new Error("Email not found");
 
     return userEmail;
@@ -95,23 +94,4 @@ export class UserService implements IUserService {
     return addGemsUser;
   }
 
-  async subtractGems(id: string, subtractGems: number): Promise<User> {
-    const user = await this.userRepo.getUserById(id);
-
-    if (!user) throw new Error("User not found");
-
-    if (subtractGems < 0) throw new Error("add value bigger then zero");
-
-    if (user.gems <= 0) throw new Error("User without Gems");
-
-    const gems: number = user.gems;
-
-    const newGems = gems - subtractGems;
-
-    const subtractGemsUser = await this.userRepo.subtractGems(id, newGems);
-
-    if (!subtractGemsUser) throw new Error("Error when adding gems");
-
-    return subtractGemsUser;
-  }
 }

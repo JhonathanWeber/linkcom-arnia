@@ -5,7 +5,7 @@ import { IUserRepo } from "./userRepoInterface";
 import { UpdateUserDto } from "../dtos/updateUserDto";
 
 export class UserRepo implements IUserRepo {
-  constructor(private userModel: Model<User>) {}
+  constructor(private userModel: Model<User>) { }
 
   async getAll(): Promise<User[]> {
     const users = await this.userModel.find({ deletedAt: null });
@@ -42,25 +42,15 @@ export class UserRepo implements IUserRepo {
       { new: true }
     );
 
-    if (!user) {
-      return null;
-    }
     return user;
   }
 
   async getUserByEmail(email: string): Promise<User | null> {
     const user = await this.userModel.findOne({ email: email });
-
-    if (!user) {
-      return null;
-    }
-    return user;
+    return user
   }
 
-  async updateUser(
-    id: string,
-    newUserData: UpdateUserDto
-  ): Promise<User | null> {
+  async updateUser(id: string, newUserData: UpdateUserDto): Promise<User | null> {
     if (!isValidObjectId(id)) throw new Error("user not found");
 
     const user = await this.userModel.findByIdAndUpdate(id, newUserData, {
@@ -81,14 +71,4 @@ export class UserRepo implements IUserRepo {
     return addGemsUser;
   }
 
-  async subtractGems(id: string, subtractGems: number): Promise<User | null> {
-    if (!isValidObjectId(id)) throw new Error("user not found");
-
-    const subtractGemsUser = await this.userModel.findByIdAndUpdate(
-      id,
-      { gems: subtractGems },
-      { new: true }
-    );
-    return subtractGemsUser;
-  }
 }

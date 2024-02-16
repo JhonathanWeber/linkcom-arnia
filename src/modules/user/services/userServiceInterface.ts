@@ -18,5 +18,4 @@ export interface IUserService {
 
   addGems(id: string, addGems: number): Promise<User>;
 
-  subtractGems(id: string, subtractGems: number): Promise<User>;
 }

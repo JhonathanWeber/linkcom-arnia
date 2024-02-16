@@ -1,9 +1,12 @@
 import { Request, Response } from "express";
 import { IUserController } from "./userControllerInterface";
 import { IUserService } from "../services/userServiceInterface";
+import { updateUserValidator } from "../utils/updateUserValidator";
+import { userAddGemsValidator } from "../utils/userAddGemsValidator";
+import { getUserByEmailValidator } from "../utils/getUserByEmailValidator";
 
 export class UserController implements IUserController {
-  constructor(private userService: IUserService) {}
+  constructor(private userService: IUserService) { }
 
   async getAll(req: Request, res: Response): Promise<void> {
     try {
@@ -56,9 +59,9 @@ export class UserController implements IUserController {
 
   async getUserByEmail(req: Request, res: Response): Promise<void> {
     try {
-      const { email } = req.params;
+      const { email } = req.body;
+      await getUserByEmailValidator.validate({ email }, { abortEarly: true });
       const user = await this.userService.getUserByEmail(email);
-
       res.status(200).json(user);
     } catch (error: any) {
       res.status(500).json({ message: error.message });
@@ -69,6 +72,7 @@ export class UserController implements IUserController {
     try {
       const { id } = req.params;
       const { body } = req;
+      await updateUserValidator.validate({ body: body }, { abortEarly: true });
       const updadeUser = await this.userService.updateUser(id, body);
 
       res.status(200).json(updadeUser);
@@ -81,18 +85,8 @@ export class UserController implements IUserController {
     try {
       const { id } = req.params;
       const { addGems } = req.body;
+      await userAddGemsValidator.validate({ addGems }, { abortEarly: true });
       const userGems = await this.userService.addGems(id, addGems);
-
-      res.status(200).json(userGems);
-    } catch (error: any) {
-      res.status(500).json({ message: error.message });
-    }
-  }
-  async subtractGems(req: Request, res: Response): Promise<void> {
-    try {
-      const { id } = req.params;
-      const { subtractGems } = req.body;
-      const userGems = await this.userService.subtractGems(id, subtractGems);
 
       res.status(200).json(userGems);
     } catch (error: any) {
