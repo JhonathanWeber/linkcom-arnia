@@ -35,4 +35,15 @@ export class ProductController implements IProductController {
       res.status(500).json({ message: error.message });
     }
   }
+
+  async updateProduct(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params
+      const { body } = req;
+      const newProduct = await this.productService.updateProduct(id, body)
+      res.status(200).json(newProduct);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  }
 }

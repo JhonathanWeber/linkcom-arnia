@@ -2,6 +2,7 @@ import { UpdateUserDto } from "./../dtos/updateUserDto";
 import { User } from "../models/userModel";
 import { IUserRepo } from "../repos/userRepoInterface";
 import { IUserService } from "./userServiceInterface";
+import { isValidObjectId } from "mongoose";
 
 //regra de negocio
 export class UserService implements IUserService {
@@ -24,6 +25,8 @@ export class UserService implements IUserService {
     return users;
   }
   async getUserById(id: string): Promise<User> {
+    if (!isValidObjectId(id)) throw new Error("User not found!");
+
     const user = await this.userRepo.getUserById(id);
 
     if (!user) throw new Error("User not found");
@@ -32,6 +35,8 @@ export class UserService implements IUserService {
   }
 
   async softDelete(id: string): Promise<User> {
+    if (!isValidObjectId(id)) throw new Error("User not found!");
+
     const user = await this.userRepo.getUserById(id);
 
     if (!user) throw new Error("User not found");
@@ -44,6 +49,8 @@ export class UserService implements IUserService {
   }
 
   async restoreUser(id: string): Promise<User> {
+    if (!isValidObjectId(id)) throw new Error("User not found!");
+
     const userInactive = await this.userRepo.getUserById(id);
 
     if (!userInactive) throw new Error("User not found");
@@ -63,6 +70,7 @@ export class UserService implements IUserService {
   }
 
   async updateUser(id: string, newUserData: UpdateUserDto): Promise<User> {
+    if (!isValidObjectId(id)) throw new Error("User not found!");
     const user = await this.userRepo.getUserById(id);
 
     if (!user) throw new Error("User not found");
@@ -75,13 +83,15 @@ export class UserService implements IUserService {
   }
 
   async addGems(id: string, addGems: number): Promise<User> {
+    if (!isValidObjectId(id)) throw new Error("User not found!");
+
     const user = await this.userRepo.getUserById(id);
 
-    if (!user) throw new Error("User not found");
+    if (!user) throw new Error("Error when searching for user! ");
 
-    if (addGems < 0) throw new Error("add value bigger then zero");
+    if (addGems < 0) throw new Error("Add value bigger then zero!");
 
-    if (addGems > 100) throw new Error("maximum gems value is 100 ");
+    if (addGems > 100) throw new Error("maximum gems value is 100!");
 
     const gems: number = user.gems;
 
@@ -89,7 +99,7 @@ export class UserService implements IUserService {
 
     const addGemsUser = await this.userRepo.addGems(id, newGems);
 
-    if (!addGemsUser) throw new Error("Error adding gems");
+    if (!addGemsUser) throw new Error("Error adding gems!");
 
     return addGemsUser;
   }

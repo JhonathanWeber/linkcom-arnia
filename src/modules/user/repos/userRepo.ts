@@ -13,14 +13,11 @@ export class UserRepo implements IUserRepo {
   }
 
   async getAllDeleted(): Promise<User[]> {
-    // ne: (not exist) extrai os usuarios que estao com o status sem 'null'
-
     const users = await this.userModel.find({ deletedAt: { $ne: null } });
     return users;
   }
 
   async softDelete(id: string): Promise<User | null> {
-    if (!isValidObjectId(id)) throw new Error("User not found");
     const deleteUser = await this.userModel.findByIdAndUpdate(
       id,
       { deletedAt: new Date() },
@@ -51,8 +48,6 @@ export class UserRepo implements IUserRepo {
   }
 
   async updateUser(id: string, newUserData: UpdateUserDto): Promise<User | null> {
-    if (!isValidObjectId(id)) throw new Error("user not found");
-
     const user = await this.userModel.findByIdAndUpdate(id, newUserData, {
       new: true,
     });
@@ -61,8 +56,6 @@ export class UserRepo implements IUserRepo {
   }
 
   async addGems(id: string, addGems: number): Promise<User | null> {
-    if (!isValidObjectId(id)) throw new Error("user not found");
-
     const addGemsUser = await this.userModel.findByIdAndUpdate(
       id,
       { gems: addGems },

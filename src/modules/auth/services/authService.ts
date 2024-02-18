@@ -1,5 +1,5 @@
+import { User } from './../../user/models/userModel';
 import jwt from 'jsonwebtoken';
-import { User } from "../../user/models/userModel";
 import { LoginDTO } from "../dtos/loginDTOS";
 import { IAuthRepo } from "../repo/authRepoInterface";
 import { IAuthService } from "./authServiceInterface";
@@ -16,8 +16,6 @@ export class AuthService implements IAuthService {
 
 
         if (!user || !user.password) throw new Error('Invailed email')
-        // if (user.typeUser !== 'user') throw new Error(`User type is ${user.typeUser}, logn!`)
-
 
         const userPassword = user.password
         const isPasswordValid = await bcrypt.compare(loginData.password, userPassword)
@@ -41,6 +39,16 @@ export class AuthService implements IAuthService {
         if (!newUser) throw new Error('Invalid User')
 
         return newUser
+    }
+
+    async loggedUser(token: string): Promise<User | null> {
+        if (!token) throw new Error('token invalid, expires or user not logged!')
+        const decodingUser: any = jwt.verify(token, process.env.JWT_SECRET as string)
+        const user: User = { ...decodingUser._doc }
+
+        return user
+
+
     }
 
 

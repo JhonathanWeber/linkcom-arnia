@@ -4,10 +4,12 @@ import { loginValidator } from "../utils/loginValidator";
 import { IAuthController } from "./authControllerInterface";
 import { registerUserValidator } from "../utils/registerUserValidator";
 
+
+
 declare global {
     namespace Express {
         interface Request {
-            typeUser?: string; // Defina a propriedade userType opcional no objeto de solicitação
+            user: Object // Defina a propriedade userType opcional no objeto de solicitação
         }
     }
 }
@@ -21,6 +23,7 @@ export class AuthController implements IAuthController {
             const { email, password } = req.body
             await loginValidator.validate({ email: email, password: password }, { abortEarly: true })
             const userData = await this.authService.login({ email: email, password: password })
+            req.user = { ...userData }
             res.status(200).json({ user: userData?.user, token: userData?.token })
         } catch (error: any) {
             res.status(500).json({ error: error.message });
@@ -39,7 +42,18 @@ export class AuthController implements IAuthController {
         }
     }
 
+    async loggedUser(req: Request, res: Response): Promise<void> {
 
+        try {
+            const { authorization } = req.headers
+            const [, token]: any = authorization?.split(" ")
+            const user = await this.authService.loggedUser(token)
+            res.status(200).json(user)
+        } catch (error: any) {
+            res.status(500).json({ error: error.message })
+        }
+
+    }
 
 
 }

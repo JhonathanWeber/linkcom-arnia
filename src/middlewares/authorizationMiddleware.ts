@@ -18,7 +18,7 @@ export class Authorization {
             return next()
 
         } catch (erro: any) {
-            res.status(401).json({ mensage: 'access unauthorization', error: erro.message })
+            res.status(401).json({ message: 'access unauthorization', error: erro.message })
 
         }
 

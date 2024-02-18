@@ -31,8 +31,6 @@ export class RedeemProductService implements IRedeemProductService {
         redeemFull.nameProduct = product.name
         redeemFull.productValue = product.value
 
-        console.log(dataTransaction)
-
         const redeemTransaction = await this.redeemRepo.addRedeemTransaction(redeemFull)
         if (!redeemTransaction) throw new Error("Error register transaction")
 
