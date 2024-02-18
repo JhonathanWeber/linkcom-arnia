@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev src/server.ts",
     "start": "tsx src/server.ts",
-    "build": "ts-up src/server.ts"
+    "build": "tsup src/server.ts"
   },
   "keywords": [],
   "author": "Fabiana Tolentino",
